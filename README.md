@@ -1,52 +1,5 @@
 ## 流量分类代码
 
-### 提取特征
-给定一个文件夹filepath，遍历文件夹下所有pcap文件，每个pcap文件生成一个同名文件夹，在该同名文件夹下生成提取的特征文件，并将tcp流生成一个'_TCP.txt'为后缀的文件，放在pcap同级目录中
-
-```
-sh Extractor.sh filepath
-```
-
-### 合并AB流
-将同一条流的AB方向流特征合并，生成TCP.csv文件
-
-tranalyzer使用默认t2build安装方式't2build'
-
-在linux环境下：
-```
-find filepath | grep -e '_TCP.txt' | xargs -I {} python3 merge_AB.py {}
-```
-
-### 汇聚特征
-给定一个文件夹，遍历文件夹下所有_TCP.csv文件，聚合为一个csv文件
-```
-python3 aggregate_TCPcsv.py filepath
-```
-
-### 打标签 add_label.py
-给定一个txt或者csv文件，给文件打上标签，或者根据过滤规则打标签
-方法一：使用function中的函数
-```
-python3
-import function
-function.ADD_label(file, classname)
-```
-
-方法二：使用add_label.py
-```
-python3 add_label.py inputfile label outputfile
-```
-如果要对某些IP修改label：
-```
-python3 add_label.py inputfile label1 IP label2 outputfile
-```
-
-### 预处理
-删除持续时长为0的流、最大时间间隔为0的流、最大负载为0的流
-```
-python AB_preprocess.py inputfile outputfile
-```
-
 ### 上下采样
 `up_down_sampling.py`用于对数据进行上下采样，所有采样方法已经写好，略微改动样本比例，再选择使用的采样方法，调用`fit_resample`函数即可
 
