@@ -1,7 +1,5 @@
-## Traffic Classification Code
+## Traffic Classification Code - O2OS
 
-### Up-Down Sampling
-`up_down_sampling.py` is used for up-sampling and down-sampling of data. All sampling methods are already implemented. Make slight changes to the sample ratio and select the desired sampling method, then call the `fit_resample` function.
 
 ### Online and Offline Two-Stage Classification
 `OL_Classifier.py` reads a CSV file and performs two-stage classification.
