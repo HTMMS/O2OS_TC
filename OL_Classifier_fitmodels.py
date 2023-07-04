@@ -104,7 +104,7 @@ def fitmodel(online_dict, offline_dict):
         print(model2)
         clf_2 = Offline_model[model2]()
         clf_2.fit(features_2, label2)
-        # 保存模型
+        # save the model
         joblib.dump(clf_2, modelpath+'/2_'+model2+'.m')
         if(adaboostout > 0):
             predict_2 = clf_2.predict(features_2)
