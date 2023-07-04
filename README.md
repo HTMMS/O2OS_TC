@@ -1,35 +1,40 @@
 # Traffic Classification Code - O2OS
 
-## Code Description
+## 0. Table of Contents & Links
+- [1. Increase ratio](#1-ol_classifier_ratio)
+- [2. Baseline](#2-baseline)
+- [3. Nop-O2OS](#3-nop-o2os-method)
+- [4. Borderline Tech.](#4-borderline-optimization)
+- [5. Self-adaptive Tech.](#5-adaboost-optimization)
+- [6. Ensemble Tech.](#6-ensemble-optimization)
+- [7. O2OS-entirely](#7-entirety-optimization)
+- [8. Supplements-Featrues](#statistical-featrues)
 
-### Online and Offline Two-Stage Classification
-`OL_Classifier.py` reads a CSV file and performs two-stage classification.
-
-### OL_Classifier_ratio
+## 1. OL_Classifier_ratio
 Code for two-stage classification (sequence recognition and feature identification).
 
 The **modelpath** is the location where well-trained models are stored. The models are saved in the format of `1_XX.m` and `2_XX.m`, which are used for the first-stage sequence recognition and the second-stage feature identification, respectively. The features used are `pl_iat` and `select_features`.
 
 **tor** and **nor** are directories for storing the testing datasets for TOR and normal traffic, respectively.
 
-### Origin Method
+## 2. Baseline
 The original traffic recognition method. Modify the data reading part in `Classifier.py` and run the code. The models are saved in the "models" folder.
 
-### Baseline Method
+## 3. NOP-O2OS Method
 Initial recognition performance of O2OS.
 
 - Model Generation: Modify the `modelpath` to specify the model storage path in `OL_Classifier_models.py`. Set **borderline=0** and **adaboostout = 0**.
 
 - Model Testing: Modify **ensembleout = 0** in `OL_Classifier_ratio.py`. Select the test dataset paths for NOR and the model path, and modify the values of `lowbound` and `uppbound`.
 
-### Borderline Optimization
+## 4. Borderline Optimization
 Generate samples using the borderline method and modify the distribution of the test dataset to bias the classifier.
 
 - Model Generation: Modify the `modelpath` to specify the model storage path in `OL_Classifier_models.py`. Set **borderline=1** and **adaboostout = 0**. You can modify the sample quantity to be generated and which class to increase, which will bias the classifier towards that class.
 
 - Model Testing: Modify **ensembleout = 0** in `OL_Classifier_ratio.py`. Select the test dataset paths for NOR and the model path, and modify the values of `lowbound` and `uppbound`.
 
-### Adaboost Optimization
+## 5. Self-adaptive Optimization
 Adopting the Adaboost concept, the training samples for the second-stage offline classification are not normal samples, but rather TOR samples and the misclassified samples from the first-stage online classification.
 
 - Model Generation:
@@ -40,7 +45,7 @@ Adopting the Adaboost concept, the training samples for the second-stage offline
 
 - Model Testing: Modify **ensembleout = 0** in `OL_Classifier_ratio.py`. Select the test dataset paths for NOR and the model path, and modify the values of `lowbound` and `uppbound`.
 
-### Ensemble Optimization
+## 6. Ensemble Optimization
 Adopting the ensemble learning concept to integrate the results from different classifiers.
 
 - Preliminary Classification Results: In `OL_Classifier_ratio.py`, run a pre-existing model, which can be any of the previous baseline, borderline, or adaboost methods. However, set **ensembleout = 1** to save the original labels and sixteen classification results in `ensemble.csv`.
@@ -51,7 +56,7 @@ Adopting the ensemble learning concept to integrate the results from different c
 2. Slightly: Weak negation. If the classification is normal, classify it as normal; otherwise, follow the majority voting principle.
 3. Strong: Strong negation. If the four voting results do not exceed three votes, classify it as normal.
 
-### Entirety Optimization
+## 7. Entirety Optimization
 In the O2OS system, combining the borderline method, adaboost method, and ensemble method. Use the borderline method to modify the training sample distribution and bias the classifier towards normal. Use the adaboost method to focus the second-stage offline recognition on identifying the misclassified results from the first-stage. Use the ensemble method to integrate the classification results.
 
 - Model Generation:
@@ -67,7 +72,7 @@ In the O2OS system, combining the borderline method, adaboost method, and ensemb
 2.	slightly: Classifies a sample as normal if the consensus vote of the classifiers is less than 3.;
 3.	strong: Considers a sample as normal in the online phase if any one of the four classifiers assigns a normal classification, while in the offline phase, the decision is made based on majority voting.
 
-## Supplements
+## 8. Supplements
 ### statistical featrues
 | Category | Feature Names | Description |
 |----------|---------------|-------------|
