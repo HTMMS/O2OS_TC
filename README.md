@@ -1,10 +1,11 @@
-## Traffic Classification Code - O2OS
+# Traffic Classification Code - O2OS
 
+## Code Description
 
 ### Online and Offline Two-Stage Classification
 `OL_Classifier.py` reads a CSV file and performs two-stage classification.
 
-## OL_Classifier_ratio
+### OL_Classifier_ratio
 Code for two-stage classification (sequence recognition and feature identification).
 
 The **modelpath** is the location where well-trained models are stored. The models are saved in the format of `1_XX.m` and `2_XX.m`, which are used for the first-stage sequence recognition and the second-stage feature identification, respectively. The features used are `pl_iat` and `select_features`.
@@ -65,3 +66,16 @@ In the O2OS system, combining the borderline method, adaboost method, and ensemb
 1.	naïve: Applies the majority voting principle and, in the event of a tie, selects the class with the highest precision among the classifiers, considering classifier bias.
 2.	slightly: Classifies a sample as normal if the consensus vote of the classifiers is less than 3.;
 3.	strong: Considers a sample as normal in the online phase if any one of the four classifiers assigns a normal classification, while in the offline phase, the decision is made based on majority voting.
+
+## Supplements
+### statistical featrues
+| Category | Feature Names | Description |
+|----------|---------------|-------------|
+| **Source and Destination Ports** | B_dstPortClassN, A_dstPortClassN | Describes the category of source and destination ports in the traffic. |
+| **TCP Parameters** | B_tcpMSS, B_tcpBtm, A_tcpBtm, A_tcpTmS, A_tcpTmER, B_tcpTmER, A_tcpInitWinSz, B_tcpTmS, A_tcpRTTAckTripMin, A_tcpMaxWinSz, A_tcpAveWinSz, A_tcpOptCnt, A_tcpRTTSseqAA, B_tcpAveWinSz, B_tcpPSeqCnt, B_tcpInitWinSz, A_tcpOptPktCnt, A_tcpSeqSntBytes, A_tcpMinWinSz, A_tcpMSS, A_tcpPSeqCnt, A_tcpWS, A_tcpPAckCnt, A_tcpWinSzDwnCnt | Provides information about TCP connection parameters and states, including Maximum Segment Size (MSS), congestion control-related window parameters (Btm, TmS, TmER), initial window size, minimum round-trip time (RTTAckTripMin), maximum window size, average window size, TCP option count, TCP sequence sent bytes, minimum window size, packet size, and more. |
+| **IP Parameters** | A_ipMinTTL, A_ipMaxTTL, B_ipMinTTL, B_ipMaxTTL, B_ipMaxTTL, A_ipMaxdIPID | Provides information about IP protocol parameters, including minimum and maximum time-to-live (TTL) values and maximum differentiated IP identification (dIPID). |
+| **Packet Length and Assembly** | A_dsMaxPl, A_dsRangePl, A_dsSkewPl, A_dsMedianPl, A_dsMeanPl, A_dsExcPl, A_dsMeanPl, A_pktAsm | Describes information about packet length and assembly, including maximum length, length range, skewness, median length, mean length, exceptional lengths, and packet assembly. |
+| **Packet Statistics** | B_numBytesRcvd, A_tcpOptPktCnt, A_numPktsRcvd, A_numPktsSnt, B_bytAsm, A_avePktSize, A_numBytesSnt, B_tcpFlwLssAckRcvdBytes, A_tcpFlwLssAckRcvdBytes, B_numPktsRcvd, B_numBytesSnt | Provides statistical information about packet counts and byte counts, including received byte counts, TCP option packet count, received packet count, sent packet count and byte count, TCP flow loss acknowledgement received byte count, and more. |
+| **Inter-Arrival Time of Packets** | A_dsRobStdIat, B_dsIqdIat | Describes statistical information about the inter-arrival time of packets, including the stability of the interval time (RobStdIat) and interquartile distance (IqdIat). |
+
+`A_XXX` represents the direction of the client to the server, `B_XXX` the opposite.

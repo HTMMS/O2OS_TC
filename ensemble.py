@@ -102,14 +102,14 @@ if __name__ == '__main__':
                     continue
         offline_label.append(label2)
     
-    # 保存结果
+    # save the results
     online = pd.DataFrame(online_label)
     data['online']=online
     offline = pd.DataFrame(offline_label)
     data['offline']=offline
     data.to_csv('data.csv', index=False)
 
-    # 输出online结果
+    # ouput online results
     label = copy.deepcopy(data.iloc[:, 0])
     label[label!='normal']='tor'
     acc = accuracy_score(label, data['online'])
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     print("accuracy: ", acc)
     print("confusion matrix: \n", mtrx)
 
-    # 输出offline结果
+    # output offline results
     tordata = data.iloc[np.where(data['online']=='tor')]
     print(len(tordata))
     mtrx2 = confusion_matrix(tordata['label'], tordata['offline'],labels=['audio','mail','p2p','message','vedio','browser','voip','normal'])
