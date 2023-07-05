@@ -2,21 +2,21 @@
 def c45():
     ### Decision Tree Classifier
     from sklearn.tree import DecisionTreeClassifier
-    clf = DecisionTreeClassifier(criterion='entropy')
+    clf = DecisionTreeClassifier(criterion='entropy', splitter='best', max_depth=None)
     return clf
 
 
 def cart():
     ### Decision Tree Classifier
     from sklearn.tree import DecisionTreeClassifier
-    clf = DecisionTreeClassifier(criterion='gini')
+    clf = DecisionTreeClassifier(criterion='gini', splitter='best', max_depth=None, max_features='sqrt')
     return clf
 
 
 def knn():
     ### KNeighbor
     from sklearn.neighbors import KNeighborsClassifier
-    clf = KNeighborsClassifier()
+    clf = KNeighborsClassifier(n_neighbors=6, weights='distance',metric=1, n_jobs=8)
     return clf
 
 
@@ -44,7 +44,7 @@ def rf20(n_estimators=20):
 def rf30(n_estimators=30):
     ### Random Forest Classifier
     from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(n_estimators=n_estimators)
+    clf = RandomForestClassifier(n_estimators=n_estimators, criterion='gini', bootstrap=True, n_jobs=8, class_weight=None, min_samples_leaf=1, max_features=None)
     
     return clf
 
@@ -53,7 +53,7 @@ def gbdt(n_estimators=200):
     ### GBDT(Gradient Boosting Decision Tree) Classifier
     ### n_estimators = 200
     from sklearn.ensemble import GradientBoostingClassifier
-    clf = GradientBoostingClassifier(n_estimators=n_estimators)
+    clf = GradientBoostingClassifier(loss='deviance', learning_rate=0.01, subsample=1, n_estimators=n_estimators, criterion='friedman_mse')
     
     return clf
 
@@ -61,7 +61,7 @@ def gbdt(n_estimators=200):
 def AdaBoost():
     ###AdaBoost Classifier
     from sklearn.ensemble import AdaBoostClassifier
-    clf = AdaBoostClassifier()
+    clf = AdaBoostClassifier(n_estimators=60, learning_rate=0.1)
     
     return clf
 
@@ -69,7 +69,7 @@ def AdaBoost():
 def gnb():
     ### GaussianNB
     from sklearn.naive_bayes import GaussianNB
-    clf = GaussianNB()
+    clf = GaussianNB(priors=None, var_smoothing=1e-09) # change priors can improve (add Probability of normal)
     
     return clf
 
@@ -77,7 +77,7 @@ def gnb():
 def lda():
     ### Linear Discriminant Analysis
     from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-    clf = LinearDiscriminantAnalysis()
+    clf = LinearDiscriminantAnalysis(solver='eigen', priors=None) # change priors can improve (add Probability of normal)
     
     return clf
 
@@ -85,7 +85,7 @@ def lda():
 def qda():
     ### Quadratic Discriminant Analysis
     from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-    clf = QuadraticDiscriminantAnalysis()
+    clf = QuadraticDiscriminantAnalysis(priors=None, reg_param=0.0, tol=1e-04)
     
     return clf
 
